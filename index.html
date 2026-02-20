@@ -7,188 +7,460 @@
 <link href="https://fonts.cdnfonts.com/css/gilroy-bold" rel="stylesheet">
 <style>
 :root {
-  --white: #FFFFFF;
-  --bg: #F5F5F7;
-  --text: #1D1D1F;
-  --text-sec: #6E6E73;
-  --text-dim: #AEAEB2;
-  --blue: #0071E3;
-  --blue-bg: #F0F5FF;
-  --green: #28A745;
-  --green-bg: #F0FFF4;
-  --border: #E5E5EA;
-  --radius: 14px;
+  --bg: #F4F5F7;
+  --card: #FFFFFF;
+  --text: #111827;
+  --text-2: #4B5563;
+  --text-3: #9CA3AF;
+  --accent: #2563EB;
+  --accent-light: #EFF6FF;
+  --green: #059669;
+  --green-light: #ECFDF5;
+  --border: #E5E7EB;
+  --shadow: 0 1px 3px rgba(0,0,0,.04), 0 1px 2px rgba(0,0,0,.06);
+  --shadow-lg: 0 4px 24px rgba(0,0,0,.06);
+  --radius: 16px;
+  --radius-sm: 10px;
 }
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
 body {
-  font-family: 'Gilroy', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Gilroy', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.6;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-.page { max-width: 820px; margin: 0 auto; padding: 32px 16px 80px; }
 
-/* ── Card base ── */
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+
+/* ── Cards ── */
 .card {
-  background: var(--white);
+  background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 32px;
-  margin-bottom: 12px;
+  padding: 32px 36px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow);
+  position: relative;
 }
 
 /* ── Hero ── */
-.hero { display: flex; gap: 28px; align-items: center; }
-.avatar {
-  width: 100px; height: 100px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
-  border: 3px solid var(--bg);
+.hero-card {
+  padding: 40px;
+  margin-bottom: 10px;
+  overflow: hidden;
 }
-.hero-info { flex:1; }
-.hero-name { font-size: 30px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.2; }
-.hero-role { font-size: 14px; font-weight: 600; color: var(--blue); margin: 4px 0 12px; }
-.contacts { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 13px; color: var(--text-sec); }
-.contacts a { color: var(--text-sec); text-decoration: none; }
-.contacts a:hover { color: var(--blue); }
+.hero {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+.avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+.avatar-wrap::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2.5px solid var(--accent);
+  top: 0;
+  left: 0;
+  opacity: .3;
+  transform: scale(1.12);
+}
+.avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  position: relative;
+  z-index: 1;
+  border: 3px solid var(--card);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, .12);
+}
+.hero-info { flex: 1; }
+.hero-name {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  line-height: 1.15;
+  color: var(--text);
+}
+.hero-role {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 6px 0 14px;
+  letter-spacing: -0.2px;
+}
+.contacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  font-size: 13px;
+  color: var(--text-2);
+}
+.contacts a {
+  color: var(--text-2);
+  text-decoration: none;
+  transition: color .2s;
+}
+.contacts a:hover { color: var(--accent); }
+.contacts span::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  background: var(--text-3);
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+.contacts span:first-child::before { display: none; }
 
 /* ── Meta row ── */
 .meta-row {
-  display: flex; justify-content: space-between; align-items: center;
-  flex-wrap: wrap; gap: 12px; margin-top: 20px; padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 24px;
+  padding-top: 24px;
   border-top: 1px solid var(--border);
 }
 .badges { display: flex; flex-wrap: wrap; gap: 6px; }
 .badge {
-  padding: 5px 12px; font-size: 11px; font-weight: 600; border-radius: 100px;
-  background: var(--blue-bg); color: var(--blue);
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 100px;
+  background: var(--accent-light);
+  color: var(--accent);
+  letter-spacing: -0.1px;
 }
-.badge.g { background: var(--green-bg); color: var(--green); }
-.salary { font-size: 24px; font-weight: 700; color: var(--green); letter-spacing: -0.5px; }
-.salary small { font-size: 12px; font-weight: 500; color: var(--text-dim); }
+.badge.g { background: var(--green-light); color: var(--green); }
+.salary {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--green);
+  letter-spacing: -0.5px;
+}
+.salary small {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-3);
+}
 
 /* ── Pills ── */
-.pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-.pill {
-  padding: 8px 18px; font-size: 13px; font-weight: 600; border-radius: 100px;
-  background: var(--white); border: 1px solid var(--border); color: var(--text-sec);
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
 }
-.pill.on { background: var(--text); color: var(--white); border-color: var(--text); }
+.pill {
+  padding: 9px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 100px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  box-shadow: var(--shadow);
+  transition: all .2s;
+}
+.pill.on {
+  background: var(--text);
+  color: #fff;
+  border-color: var(--text);
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
 
-/* ── Section title ── */
-.stitle {
-  font-size: 18px; font-weight: 700; margin-bottom: 12px;
-  padding-bottom: 10px; border-bottom: 1px solid var(--border);
+/* ── Section Header ── */
+.sec-header {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.sec-num {
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--border);
+  line-height: 1;
+  letter-spacing: -2px;
+  user-select: none;
+}
+.sec-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.3px;
 }
 
 /* ── About ── */
-.about { font-size: 14px; color: var(--text-sec); line-height: 1.75; }
-.gh-row { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+.about {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.8;
+}
+.gh-row { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
 .gh {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 6px 14px; font-size: 12px; font-weight: 600;
-  background: var(--text); color: var(--white); border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--text);
+  color: #fff;
+  border-radius: 8px;
   text-decoration: none;
+  transition: opacity .2s;
 }
 .gh:hover { opacity: .85; }
-.gh svg { width: 13px; height: 13px; fill: #fff; }
+.gh svg { width: 14px; height: 14px; fill: #fff; }
 
 /* ── Experience ── */
-.exp-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; margin-bottom: 2px; }
-.exp-company { font-size: 16px; font-weight: 700; }
-.exp-period { font-size: 11px; color: var(--text-dim); background: var(--bg); padding: 3px 10px; border-radius: 6px; white-space: nowrap; }
-.exp-role { font-size: 13px; font-weight: 600; color: var(--blue); margin-bottom: 10px; }
-.exp-desc { font-size: 13px; color: var(--text-sec); margin-bottom: 14px; line-height: 1.7; }
-.exp-featured { border-left: 3px solid var(--blue); }
-
-.lbl {
-  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
-  color: var(--text-dim); margin: 14px 0 6px;
+.exp-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
 }
-
+.exp-company { font-size: 16px; font-weight: 700; }
+.exp-period {
+  font-size: 11px;
+  color: var(--text-3);
+  background: var(--bg);
+  padding: 4px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.exp-role {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.exp-desc {
+  font-size: 13px;
+  color: var(--text-2);
+  margin-bottom: 14px;
+  line-height: 1.75;
+}
+.exp-featured {
+  border-left: 3px solid var(--accent);
+}
+.lbl {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--text-3);
+  margin: 16px 0 8px;
+}
 .card ul { list-style: none; }
 .card ul li {
-  position: relative; padding-left: 14px; font-size: 13px;
-  margin-bottom: 5px; line-height: 1.6;
+  position: relative;
+  padding-left: 16px;
+  font-size: 13px;
+  margin-bottom: 6px;
+  line-height: 1.65;
+  color: var(--text-2);
 }
 .card ul li::before {
-  content: ''; position: absolute; left: 0; top: 9px;
-  width: 4px; height: 4px; border-radius: 50%; background: var(--text-dim);
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--text-3);
 }
 .card ul.ach li::before { background: var(--green); }
+.card ul.ach li { color: var(--text); }
 
 .lnk {
-  display: inline-flex; align-items: center; gap: 2px;
-  padding: 1px 8px; font-size: 11px; font-weight: 600;
-  background: var(--blue-bg); color: var(--blue); border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--accent-light);
+  color: var(--accent);
+  border-radius: 5px;
   text-decoration: none;
+  transition: background .2s;
 }
-.lnk:hover { background: #dce8ff; }
+.lnk:hover { background: #DBEAFE; }
 
 /* ── Education ── */
 .edu-grid { display: grid; gap: 8px; }
 .edu {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  gap: 10px; flex-wrap: wrap;
-  background: var(--white); border: 1px solid var(--border); border-radius: 10px;
-  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px 24px;
+  box-shadow: var(--shadow);
 }
-.edu-main { flex:1; min-width: 200px; }
+.edu-main { flex: 1; min-width: 200px; }
 .edu-name { font-size: 14px; font-weight: 700; }
-.edu-prog { font-size: 12px; color: var(--text-sec); }
-.edu-ach { font-size: 11px; color: var(--green); font-weight: 600; margin-top: 2px; }
-.edu-yr { font-size: 11px; color: var(--text-dim); background: var(--bg); padding: 3px 10px; border-radius: 6px; }
+.edu-prog { font-size: 12px; color: var(--text-2); margin-top: 2px; }
+.edu-ach {
+  font-size: 11px;
+  color: var(--green);
+  font-weight: 600;
+  margin-top: 4px;
+}
+.edu-yr {
+  font-size: 11px;
+  color: var(--text-3);
+  background: var(--bg);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-weight: 500;
+}
 
 /* ── Skills ── */
-.sk-group { margin-bottom: 16px; }
-.sk-group:last-child { margin-bottom: 0; }
-.sk-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-dim); margin-bottom: 8px; }
+.sk-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.sk-group { margin-bottom: 0; }
+.sk-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
 .sk-tags { display: flex; flex-wrap: wrap; gap: 5px; }
 .sk {
-  padding: 5px 12px; font-size: 12px; font-weight: 500;
-  background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text);
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  transition: transform .15s;
 }
-.sk.hl { background: var(--blue); color: #fff; border-color: var(--blue); font-weight: 600; }
+.sk:hover { transform: translateY(-1px); }
+.sk.hl {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  font-weight: 600;
+}
 
 /* ── Languages ── */
 .lang-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .lang {
-  flex:1; min-width: 150px; padding: 16px 20px;
-  background: var(--white); border: 1px solid var(--border); border-radius: 10px;
+  flex: 1;
+  min-width: 150px;
+  padding: 18px 22px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
 }
 .lang-name { font-size: 14px; font-weight: 700; }
-.lang-lvl { font-size: 12px; color: var(--text-sec); }
+.lang-lvl { font-size: 12px; color: var(--text-2); margin-top: 2px; }
 
-.footer { text-align: center; padding-top: 24px; font-size: 11px; color: var(--text-dim); }
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  padding-top: 32px;
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: -0.1px;
+}
+
+/* ── Spacing helper ── */
+.mt { margin-top: 10px; }
 
 /* ── Mobile ── */
-@media (max-width: 600px) {
-  .page { padding: 16px 10px 60px; }
-  .card { padding: 22px 18px; }
-  .hero { flex-direction: column; align-items: center; text-align: center; gap: 14px; }
+@media (max-width: 640px) {
+  .page { padding: 20px 12px 60px; }
+  .card { padding: 24px 20px; }
+  .hero-card { padding: 28px 20px; }
+  .hero {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 18px;
+  }
+  .hero-name { font-size: 26px; }
+  .avatar { width: 110px; height: 110px; }
+  .avatar-wrap::before { transform: scale(1.1); }
   .contacts { justify-content: center; }
+  .contacts span::before { display: none; }
+  .contacts { gap: 4px 14px; }
   .badges { justify-content: center; }
-  .meta-row { flex-direction: column; align-items: flex-start; }
-  .hero-name { font-size: 24px; }
-  .avatar { width: 80px; height: 80px; }
+  .meta-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .sec-num { font-size: 32px; }
+  .sk-grid { grid-template-columns: 1fr; gap: 20px; }
+  .exp-top { flex-direction: column; gap: 4px; }
 }
 
 /* ── Print ── */
 @media print {
   body { background: #fff; }
-  .card, .edu, .lang { box-shadow: none; break-inside: avoid; }
-  .sk.hl { background: #0071E3; color: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { padding: 0; max-width: 100%; }
+  .card, .edu, .lang {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+  .sk.hl {
+    background: #2563EB;
+    color: #fff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .r { opacity: 1 !important; transform: none !important; }
 }
 
 /* ── Animations ── */
 .r {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(20px);
 }
 .r.v {
-  animation: up .5s cubic-bezier(.25,.46,.45,.94) forwards;
+  animation: rise .55s cubic-bezier(.22, .61, .36, 1) forwards;
 }
-@keyframes up { to { opacity:1; transform:translateY(0); } }
+@keyframes rise {
+  to { opacity: 1; transform: translateY(0); }
+}
 </style>
 </head>
 <body>
@@ -196,9 +468,11 @@ body {
 <div class="page">
 
   <!-- HERO -->
-  <div class="card r" style="padding:28px 32px;">
+  <div class="card hero-card r">
     <div class="hero">
-      <img class="avatar" src="photo.jpg" alt="Александр Ларин">
+      <div class="avatar-wrap">
+        <img class="avatar" src="photo.jpg" alt="Александр Ларин">
+      </div>
       <div class="hero-info">
         <h1 class="hero-name">Александр Ларин</h1>
         <div class="hero-role">AI Implementation Lead / Руководитель AI-направления</div>
@@ -212,8 +486,8 @@ body {
     </div>
     <div class="meta-row">
       <div class="badges">
-        <span class="badge">🤖 AI & Автоматизация</span>
-        <span class="badge">📊 Внедрение в бизнес-процессы</span>
+        <span class="badge">AI & Автоматизация</span>
+        <span class="badge">Внедрение в бизнес-процессы</span>
         <span class="badge g">Гибрид / Удалённо</span>
         <span class="badge g">Готов к командировкам</span>
       </div>
@@ -231,7 +505,10 @@ body {
 
   <!-- ABOUT -->
   <div class="card r">
-    <div class="stitle">О себе</div>
+    <div class="sec-header">
+      <span class="sec-num">00</span>
+      <span class="sec-title">О себе</span>
+    </div>
     <div class="about">
       Руковожу внедрением AI-решений в бизнес-процессы: продажи, закупки, аналитика, корпоративные коммуникации. Создал AI-платформу Aski для автоматизации бизнес-процессов. Опыт поиска product-market fit, кастомной AI-разработки под запрос клиента, управления командами до 10 человек. Выступал спикером Московского инновационного кластера. Магистратура ВШЭ (International Business) и КФУ (Менеджмент).
       <div class="gh-row">
@@ -248,7 +525,12 @@ body {
   </div>
 
   <!-- EXPERIENCE -->
-  <div class="r"><div class="stitle">Опыт работы — 7 лет</div></div>
+  <div class="r">
+    <div class="sec-header mt">
+      <span class="sec-num">01</span>
+      <span class="sec-title">Опыт работы — 7 лет</span>
+    </div>
+  </div>
 
   <div class="card exp-featured r">
     <div class="exp-top">
@@ -274,7 +556,7 @@ body {
       <li>Внедрил AI в отделы продаж: автоматизация анализа звонков, извлечение ключевых инсайтов и задач</li>
       <li>Ускорение обработки информации в автоматизированных процессах на 70–90%</li>
       <li>Разработал MVP AI-системы: анализ коммуникаций, поиск по истории взаимодействий, авто-отчёты, AI-ассистенты для сотрудников</li>
-      <li>Выступил спикером Московского инновационного кластера — основная сцена и конференция в Лужниках <a href="https://t.me/innovators_msk/1486" target="_blank" class="lnk">📎 Пост 1</a> <a href="https://t.me/innovators_msk/1453" target="_blank" class="lnk">📎 Пост 2</a></li>
+      <li>Выступил спикером Московского инновационного кластера — основная сцена и конференция в Лужниках <a href="https://t.me/innovators_msk/1486" target="_blank" class="lnk">Пост 1 ↗</a> <a href="https://t.me/innovators_msk/1453" target="_blank" class="lnk">Пост 2 ↗</a></li>
       <li>Представлял AI-решение перед представителями бизнеса, инвесторами и технологическим сообществом</li>
     </ul>
   </div>
@@ -362,7 +644,12 @@ body {
   </div>
 
   <!-- EDUCATION -->
-  <div class="r"><div class="stitle">Образование</div></div>
+  <div class="r">
+    <div class="sec-header mt">
+      <span class="sec-num">02</span>
+      <span class="sec-title">Образование</span>
+    </div>
+  </div>
   <div class="edu-grid r">
     <div class="edu">
       <div class="edu-main">
@@ -375,7 +662,7 @@ body {
       <div class="edu-main">
         <div class="edu-name">Высшая школа экономики (НИУ ВШЭ)</div>
         <div class="edu-prog">Магистр · International Business</div>
-        <div class="edu-ach">✦ Спикер HSE Business Forum</div>
+        <div class="edu-ach">Спикер HSE Business Forum</div>
       </div>
       <span class="edu-yr">2025</span>
     </div>
@@ -383,79 +670,86 @@ body {
       <div class="edu-main">
         <div class="edu-name">Финансовый университет при Правительстве РФ</div>
         <div class="edu-prog">Бакалавриат · Оценка бизнеса в цифровой экономике</div>
-        <div class="edu-ach">✦ Бизнес-инкубатор · Победитель «Я в деле»</div>
+        <div class="edu-ach">Бизнес-инкубатор · Победитель «Я в деле»</div>
       </div>
       <span class="edu-yr">2020 – 2024</span>
     </div>
   </div>
 
   <!-- SKILLS -->
-  <div class="r" style="margin-top:12px"><div class="stitle">Навыки</div></div>
+  <div class="r">
+    <div class="sec-header mt">
+      <span class="sec-num">03</span>
+      <span class="sec-title">Навыки</span>
+    </div>
+  </div>
   <div class="card r">
-    <div class="sk-group">
-      <div class="sk-label">AI & Автоматизация</div>
-      <div class="sk-tags">
-        <span class="sk hl">Внедрение AI в бизнес-процессы</span>
-        <span class="sk hl">ChatGPT</span>
-        <span class="sk hl">Claude</span>
-        <span class="sk hl">YandexGPT</span>
-        <span class="sk">DeepSeek</span>
-        <span class="sk">Grok</span>
-        <span class="sk">GigaChat</span>
-        <span class="sk">Gemini</span>
-        <span class="sk">Mistral</span>
-        <span class="sk">MidJourney</span>
-        <span class="sk">Perplexity</span>
+    <div class="sk-grid">
+      <div class="sk-group">
+        <div class="sk-label">AI & Автоматизация</div>
+        <div class="sk-tags">
+          <span class="sk hl">Внедрение AI в бизнес-процессы</span>
+          <span class="sk hl">ChatGPT</span>
+          <span class="sk hl">Claude</span>
+          <span class="sk hl">YandexGPT</span>
+          <span class="sk">DeepSeek</span>
+          <span class="sk">Grok</span>
+          <span class="sk">GigaChat</span>
+          <span class="sk">Gemini</span>
+          <span class="sk">Mistral</span>
+          <span class="sk">MidJourney</span>
+          <span class="sk">Perplexity</span>
+        </div>
+      </div>
+      <div class="sk-group">
+        <div class="sk-label">Продуктовое управление</div>
+        <div class="sk-tags">
+          <span class="sk">Customer Development</span>
+          <span class="sk">A/B тестирование</span>
+          <span class="sk">Agile</span>
+          <span class="sk">Figma / Прототипирование</span>
+          <span class="sk">UX/UI</span>
+          <span class="sk">Unit-экономика</span>
+          <span class="sk">Воронки продаж</span>
+        </div>
+      </div>
+      <div class="sk-group">
+        <div class="sk-label">Инструменты</div>
+        <div class="sk-tags">
+          <span class="sk">Yandex Tracker</span>
+          <span class="sk">Yandex DataLens</span>
+          <span class="sk">Power BI</span>
+          <span class="sk">Miro</span>
+          <span class="sk">Notion</span>
+          <span class="sk">Obsidian</span>
+          <span class="sk">YouGile</span>
+          <span class="sk">BuildIn</span>
+          <span class="sk">Canva</span>
+          <span class="sk">amoCRM</span>
+          <span class="sk">CRMfix</span>
+          <span class="sk">1C</span>
+          <span class="sk">MS Office</span>
+          <span class="sk">Google Docs</span>
+          <span class="sk">Google Slides</span>
+        </div>
+      </div>
+      <div class="sk-group">
+        <div class="sk-label">Технические</div>
+        <div class="sk-tags">
+          <span class="sk">Python</span>
+          <span class="sk">SQL</span>
+          <span class="sk">HTML</span>
+          <span class="sk">Markdown</span>
+          <span class="sk">GitHub</span>
+          <span class="sk">Vercel</span>
+          <span class="sk">Supabase</span>
+          <span class="sk">Timeweb Cloud</span>
+          <span class="sk">Yandex Cloud</span>
+          <span class="sk">Cloud.ru</span>
+        </div>
       </div>
     </div>
-    <div class="sk-group">
-      <div class="sk-label">Продуктовое управление</div>
-      <div class="sk-tags">
-        <span class="sk">Customer Development</span>
-        <span class="sk">A/B тестирование</span>
-        <span class="sk">Agile</span>
-        <span class="sk">Figma / Прототипирование</span>
-        <span class="sk">UX/UI</span>
-        <span class="sk">Unit-экономика</span>
-        <span class="sk">Воронки продаж</span>
-      </div>
-    </div>
-    <div class="sk-group">
-      <div class="sk-label">Инструменты</div>
-      <div class="sk-tags">
-        <span class="sk">Yandex Tracker</span>
-        <span class="sk">Yandex DataLens</span>
-        <span class="sk">Power BI</span>
-        <span class="sk">Miro</span>
-        <span class="sk">Notion</span>
-        <span class="sk">Obsidian</span>
-        <span class="sk">YouGile</span>
-        <span class="sk">BuildIn</span>
-        <span class="sk">Canva</span>
-        <span class="sk">amoCRM</span>
-        <span class="sk">CRMfix</span>
-        <span class="sk">1C</span>
-        <span class="sk">MS Office</span>
-        <span class="sk">Google Docs</span>
-        <span class="sk">Google Slides</span>
-      </div>
-    </div>
-    <div class="sk-group">
-      <div class="sk-label">Технические</div>
-      <div class="sk-tags">
-        <span class="sk">Python</span>
-        <span class="sk">SQL</span>
-        <span class="sk">HTML</span>
-        <span class="sk">Markdown</span>
-        <span class="sk">GitHub</span>
-        <span class="sk">Vercel</span>
-        <span class="sk">Supabase</span>
-        <span class="sk">Timeweb Cloud</span>
-        <span class="sk">Yandex Cloud</span>
-        <span class="sk">Cloud.ru</span>
-      </div>
-    </div>
-    <div class="sk-group">
+    <div class="sk-group" style="margin-top: 24px;">
       <div class="sk-label">Soft Skills</div>
       <div class="sk-tags">
         <span class="sk">Проведение презентаций</span>
@@ -468,7 +762,12 @@ body {
   </div>
 
   <!-- LANGUAGES -->
-  <div class="r" style="margin-top:12px"><div class="stitle">Языки</div></div>
+  <div class="r">
+    <div class="sec-header mt">
+      <span class="sec-num">04</span>
+      <span class="sec-title">Языки</span>
+    </div>
+  </div>
   <div class="lang-row r">
     <div class="lang">
       <div class="lang-name">Русский</div>
@@ -484,9 +783,14 @@ body {
 </div>
 
 <script>
-const o = new IntersectionObserver(e => {
-  e.forEach(el => { if (el.isIntersecting) { el.target.classList.add('v'); o.unobserve(el.target); } });
-}, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+const o = new IntersectionObserver(entries => {
+  entries.forEach(el => {
+    if (el.isIntersecting) {
+      el.target.classList.add('v');
+      o.unobserve(el.target);
+    }
+  });
+}, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.r').forEach(el => o.observe(el));
 </script>
 </body>
