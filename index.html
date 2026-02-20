@@ -4,661 +4,660 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Александр Ларин — AI Implementation Lead</title>
-<link href="https://fonts.cdnfonts.com/css/gilroy-bold" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;800&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #F4F5F7;
-  --card: #FFFFFF;
-  --text: #111827;
-  --text-2: #4B5563;
-  --text-3: #9CA3AF;
-  --accent: #2563EB;
-  --accent-light: #EFF6FF;
-  --green: #059669;
-  --green-light: #ECFDF5;
-  --border: #E5E7EB;
-  --shadow: 0 1px 3px rgba(0,0,0,.04), 0 1px 2px rgba(0,0,0,.06);
-  --shadow-lg: 0 4px 24px rgba(0,0,0,.06);
-  --radius: 16px;
-  --radius-sm: 10px;
+  --bg: #070b12;
+  --bg2: #0d1320;
+  --card: #111827;
+  --accent: #F0E4D3;
+  --accent2: #D4C0A8;
+  --green: #34D399;
+  --green-bg: rgba(52,211,153,0.12);
+  --blue: #60A5FA;
+  --text: #f0f4ff;
+  --muted: #6b7a99;
+  --border: rgba(255,255,255,0.06);
 }
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-
 body {
-  font-family: 'Gilroy', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
 }
-
-.page {
-  max-width: 880px;
-  margin: 0 auto;
-  padding: 40px 20px 80px;
-}
-
-/* ── Cards ── */
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 32px 36px;
-  margin-bottom: 10px;
-  box-shadow: var(--shadow);
-  position: relative;
-}
-
-/* ── Hero ── */
-.hero-card {
-  padding: 40px;
-  margin-bottom: 10px;
-  overflow: hidden;
-}
-.hero {
-  display: flex;
-  gap: 32px;
-  align-items: center;
-}
-.avatar-wrap {
-  position: relative;
-  flex-shrink: 0;
-}
-.avatar-wrap::before {
+body::before {
   content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  border: 2.5px solid var(--accent);
-  top: 0;
-  left: 0;
-  opacity: .3;
-  transform: scale(1.12);
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
 }
-.avatar {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  object-fit: cover;
-  display: block;
-  position: relative;
-  z-index: 1;
-  border: 3px solid var(--card);
-  box-shadow: 0 4px 20px rgba(37, 99, 235, .12);
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 60px;
+  backdrop-filter: blur(20px);
+  background: rgba(7,11,18,0.75);
+  border-bottom: 1px solid var(--border);
 }
-.hero-info { flex: 1; }
-.hero-name {
-  font-size: 32px;
-  font-weight: 800;
-  letter-spacing: -0.8px;
-  line-height: 1.15;
-  color: var(--text);
+.logo {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 800; font-size: 1.2rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  letter-spacing: -0.02em;
+}
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  color: var(--muted); text-decoration: none; font-size: 0.85rem;
+  font-weight: 500; transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  background: var(--accent); color: #000;
+  padding: 9px 22px; border-radius: 100px;
+  font-weight: 700; font-size: 0.8rem;
+  text-decoration: none; transition: all 0.3s;
+}
+.nav-cta:hover { background: #fff; transform: translateY(-1px); }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 140px 40px 60px;
+  position: relative; overflow: hidden;
+}
+.hero-glow {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -55%);
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,228,211,0.08) 0%, rgba(240,228,211,0.04) 40%, transparent 70%);
+  pointer-events: none;
+  animation: pulse 6s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: translate(-50%, -55%) scale(1); opacity: 1; }
+  50% { transform: translate(-50%, -55%) scale(1.15); opacity: 0.6; }
+}
+.hero-avatar {
+  position: relative; margin-bottom: 32px;
+  animation: fadeUp 0.8s ease both;
+}
+.hero-avatar::before {
+  content: '';
+  position: absolute; inset: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(240,228,211,0.2);
+  animation: pulse 6s ease-in-out infinite;
+}
+.hero-avatar::after {
+  content: '';
+  position: absolute; inset: -18px;
+  border-radius: 50%;
+  border: 1px solid rgba(240,228,211,0.08);
+}
+.hero-avatar img {
+  width: 160px; height: 160px;
+  border-radius: 50%; object-fit: cover;
+  border: 3px solid rgba(240,228,211,0.15);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 80px rgba(240,228,211,0.08);
+  position: relative; z-index: 1;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(240,228,211,0.1); border: 1px solid rgba(240,228,211,0.25);
+  color: var(--accent); padding: 6px 18px; border-radius: 100px;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; margin-bottom: 28px;
+  animation: fadeUp 0.8s 0.1s ease both;
+}
+.hero h1 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 800; line-height: 1.1;
+  letter-spacing: -0.03em; margin-bottom: 16px;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+.hero h1 span {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .hero-role {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--accent);
-  margin: 6px 0 14px;
-  letter-spacing: -0.2px;
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  color: var(--muted); margin-bottom: 36px;
+  animation: fadeUp 0.8s 0.3s ease both;
 }
-.contacts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 20px;
-  font-size: 13px;
-  color: var(--text-2);
+.hero-contacts {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  justify-content: center; margin-bottom: 40px;
+  animation: fadeUp 0.8s 0.4s ease both;
 }
-.contacts a {
-  color: var(--text-2);
-  text-decoration: none;
-  transition: color .2s;
+.hero-contacts a, .hero-contacts span {
+  background: var(--card); border: 1px solid var(--border);
+  padding: 8px 18px; border-radius: 100px;
+  font-size: 0.82rem; font-weight: 500; color: var(--muted);
+  text-decoration: none; transition: all 0.3s;
 }
-.contacts a:hover { color: var(--accent); }
-.contacts span::before {
-  content: '';
-  display: inline-block;
-  width: 3px;
-  height: 3px;
-  background: var(--text-3);
-  border-radius: 50%;
-  vertical-align: middle;
-  margin-right: 10px;
+.hero-contacts a:hover { border-color: var(--accent); color: var(--accent); background: rgba(240,228,211,0.05); }
+.hero-buttons {
+  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+  animation: fadeUp 0.8s 0.5s ease both;
 }
-.contacts span:first-child::before { display: none; }
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #000; padding: 14px 32px; border-radius: 100px;
+  font-weight: 700; font-size: 0.9rem; text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 0 40px rgba(240,228,211,0.25);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 60px rgba(240,228,211,0.4); }
+.btn-secondary {
+  background: transparent; color: var(--text);
+  padding: 14px 32px; border-radius: 100px;
+  font-weight: 600; font-size: 0.9rem; text-decoration: none;
+  transition: all 0.3s; border: 1px solid var(--border);
+}
+.btn-secondary:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.04); }
 
-/* ── Meta row ── */
-.meta-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 24px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border);
+/* ─── STATS BAR ─── */
+.stats-bar {
+  background: var(--bg2);
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 32px 60px;
+  display: flex; justify-content: center; gap: 0;
+  position: relative; z-index: 1;
 }
-.badges { display: flex; flex-wrap: wrap; gap: 6px; }
-.badge {
-  padding: 5px 14px;
-  font-size: 11px;
-  font-weight: 600;
-  border-radius: 100px;
-  background: var(--accent-light);
-  color: var(--accent);
-  letter-spacing: -0.1px;
+.stat-item {
+  flex: 1; max-width: 220px; text-align: center;
+  padding: 0 32px; border-right: 1px solid var(--border);
 }
-.badge.g { background: var(--green-light); color: var(--green); }
-.salary {
-  font-size: 26px;
-  font-weight: 800;
-  color: var(--green);
-  letter-spacing: -0.5px;
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 1.8rem; font-weight: 800; color: var(--accent); display: block;
 }
-.salary small {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text-3);
-}
+.stat-desc { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
 
-/* ── Pills ── */
+/* ─── SECTIONS COMMON ─── */
+section { position: relative; z-index: 1; }
+.section-inner { max-width: 900px; margin: 0 auto; padding: 100px 40px; }
+.section-label {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+}
+.section-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 700;
+  letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 14px;
+}
+.section-sub { color: var(--muted); max-width: 520px; margin-bottom: 48px; font-size: 0.95rem; }
+
+/* ─── PILLS ─── */
 .pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 10px;
+  display: flex; flex-wrap: wrap; gap: 8px;
+  justify-content: center; margin-bottom: 48px;
 }
 .pill {
-  padding: 9px 20px;
-  font-size: 13px;
-  font-weight: 600;
-  border-radius: 100px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  color: var(--text-2);
-  box-shadow: var(--shadow);
-  transition: all .2s;
+  padding: 9px 22px; font-size: 0.82rem; font-weight: 600;
+  border-radius: 100px; background: var(--card);
+  border: 1px solid var(--border); color: var(--muted);
+  transition: all 0.3s;
 }
 .pill.on {
-  background: var(--text);
-  color: #fff;
-  border-color: var(--text);
-  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  background: var(--accent); color: #000; border-color: var(--accent);
+  box-shadow: 0 0 24px rgba(240,228,211,0.2);
 }
 
-/* ── Section Header ── */
-.sec-header {
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  margin-bottom: 12px;
+/* ─── ABOUT CARD ─── */
+.about-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 24px; padding: 36px;
+  position: relative; overflow: hidden;
+  transition: all 0.4s;
 }
-.sec-num {
-  font-size: 42px;
-  font-weight: 800;
-  color: var(--border);
-  line-height: 1;
-  letter-spacing: -2px;
-  user-select: none;
+.about-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(240,228,211,0.03), transparent);
+  opacity: 0; transition: opacity 0.4s;
 }
-.sec-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text);
-  letter-spacing: -0.3px;
-}
-
-/* ── About ── */
-.about {
-  font-size: 14px;
-  color: var(--text-2);
-  line-height: 1.8;
-}
-.gh-row { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+.about-card:hover { border-color: rgba(240,228,211,0.2); }
+.about-card:hover::before { opacity: 1; }
+.about-text { font-size: 0.92rem; color: var(--muted); line-height: 1.8; position: relative; z-index: 1; }
+.gh-row { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; position: relative; z-index: 1; }
 .gh {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 16px;
-  font-size: 12px;
-  font-weight: 600;
-  background: var(--text);
-  color: #fff;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: opacity .2s;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 18px; font-size: 0.78rem; font-weight: 700;
+  background: rgba(240,228,211,0.1); border: 1px solid rgba(240,228,211,0.2);
+  color: var(--accent); border-radius: 100px;
+  text-decoration: none; transition: all 0.3s;
 }
-.gh:hover { opacity: .85; }
-.gh svg { width: 14px; height: 14px; fill: #fff; }
+.gh:hover { background: rgba(240,228,211,0.18); border-color: var(--accent); }
+.gh svg { width: 14px; height: 14px; fill: currentColor; }
 
-/* ── Experience ── */
-.exp-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 4px;
+/* ─── EXPERIENCE CARDS ─── */
+.exp-grid { display: flex; flex-direction: column; gap: 16px; }
+.exp-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 20px; padding: 32px;
+  transition: all 0.4s; position: relative; overflow: hidden;
 }
-.exp-company { font-size: 16px; font-weight: 700; }
+.exp-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(240,228,211,0.04), transparent);
+  opacity: 0; transition: opacity 0.4s;
+}
+.exp-card:hover { border-color: rgba(240,228,211,0.25); transform: translateY(-3px); }
+.exp-card:hover::before { opacity: 1; }
+.exp-card.featured { border-left: 3px solid var(--accent); }
+.exp-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 12px; flex-wrap: wrap; margin-bottom: 6px; position: relative; z-index: 1;
+}
+.exp-company {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.95rem; font-weight: 700;
+}
 .exp-period {
-  font-size: 11px;
-  color: var(--text-3);
-  background: var(--bg);
-  padding: 4px 12px;
-  border-radius: 6px;
-  white-space: nowrap;
-  font-weight: 500;
+  font-size: 0.7rem; color: var(--muted);
+  background: rgba(255,255,255,0.05); padding: 4px 14px;
+  border-radius: 100px; white-space: nowrap; font-weight: 500;
 }
 .exp-role {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--accent);
-  margin-bottom: 10px;
+  font-size: 0.82rem; font-weight: 600; color: var(--accent);
+  margin-bottom: 12px; position: relative; z-index: 1;
 }
 .exp-desc {
-  font-size: 13px;
-  color: var(--text-2);
-  margin-bottom: 14px;
-  line-height: 1.75;
+  font-size: 0.85rem; color: var(--muted); margin-bottom: 16px;
+  line-height: 1.75; position: relative; z-index: 1;
 }
-.exp-featured {
-  border-left: 3px solid var(--accent);
+.exp-lbl {
+  font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--muted); margin: 18px 0 10px;
+  position: relative; z-index: 1;
 }
-.lbl {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  color: var(--text-3);
-  margin: 16px 0 8px;
+.exp-card ul { list-style: none; position: relative; z-index: 1; }
+.exp-card ul li {
+  position: relative; padding-left: 16px;
+  font-size: 0.85rem; margin-bottom: 7px; line-height: 1.65; color: var(--muted);
 }
-.card ul { list-style: none; }
-.card ul li {
-  position: relative;
-  padding-left: 16px;
-  font-size: 13px;
-  margin-bottom: 6px;
-  line-height: 1.65;
-  color: var(--text-2);
+.exp-card ul li::before {
+  content: ''; position: absolute; left: 0; top: 10px;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: rgba(255,255,255,0.15);
 }
-.card ul li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 9px;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--text-3);
-}
-.card ul.ach li::before { background: var(--green); }
-.card ul.ach li { color: var(--text); }
-
+.exp-card ul.ach li::before { background: var(--green); }
+.exp-card ul.ach li { color: var(--text); }
 .lnk {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  padding: 2px 10px;
-  font-size: 11px;
-  font-weight: 600;
-  background: var(--accent-light);
-  color: var(--accent);
-  border-radius: 5px;
-  text-decoration: none;
-  transition: background .2s;
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 2px 10px; font-size: 0.7rem; font-weight: 600;
+  background: rgba(240,228,211,0.1); color: var(--accent);
+  border-radius: 5px; text-decoration: none; transition: background 0.2s;
 }
-.lnk:hover { background: #DBEAFE; }
+.lnk:hover { background: rgba(240,228,211,0.2); }
 
-/* ── Education ── */
-.edu-grid { display: grid; gap: 8px; }
-.edu {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-  flex-wrap: wrap;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 20px 24px;
-  box-shadow: var(--shadow);
+/* ─── EDUCATION ─── */
+.edu-grid { display: grid; gap: 12px; }
+.edu-card {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 14px; flex-wrap: wrap;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 24px 28px;
+  transition: all 0.3s;
 }
+.edu-card:hover { border-color: rgba(240,228,211,0.2); transform: translateY(-2px); }
 .edu-main { flex: 1; min-width: 200px; }
-.edu-name { font-size: 14px; font-weight: 700; }
-.edu-prog { font-size: 12px; color: var(--text-2); margin-top: 2px; }
-.edu-ach {
-  font-size: 11px;
-  color: var(--green);
-  font-weight: 600;
-  margin-top: 4px;
+.edu-name {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.82rem; font-weight: 600;
 }
+.edu-prog { font-size: 0.8rem; color: var(--muted); margin-top: 3px; }
+.edu-ach { font-size: 0.75rem; color: var(--green); font-weight: 600; margin-top: 5px; }
 .edu-yr {
-  font-size: 11px;
-  color: var(--text-3);
-  background: var(--bg);
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-weight: 500;
+  font-size: 0.72rem; color: var(--muted);
+  background: rgba(255,255,255,0.05); padding: 5px 14px;
+  border-radius: 100px; font-weight: 500; white-space: nowrap;
 }
 
-/* ── Skills ── */
-.sk-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
+/* ─── SKILLS ─── */
+.skills-section {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 50%, var(--bg) 100%);
 }
-.sk-group { margin-bottom: 0; }
+.sk-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
+}
+.sk-group { }
 .sk-label {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  color: var(--text-3);
+  font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--muted); margin-bottom: 12px;
+}
+.sk-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.sk {
+  padding: 6px 14px; font-size: 0.78rem; font-weight: 500;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 100px; color: var(--muted); transition: all 0.3s;
+}
+.sk:hover { border-color: var(--accent); color: var(--accent); background: rgba(240,228,211,0.05); }
+.sk.hl {
+  background: rgba(240,228,211,0.12); color: var(--accent);
+  border-color: rgba(240,228,211,0.25); font-weight: 600;
+}
+
+/* ─── LANGUAGES ─── */
+.lang-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.lang-card {
+  flex: 1; min-width: 150px;
+  padding: 22px 26px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; transition: all 0.3s;
+}
+.lang-card:hover { border-color: rgba(240,228,211,0.2); transform: translateY(-2px); }
+.lang-name {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.9rem; font-weight: 600;
+}
+.lang-lvl { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+
+/* ─── FOOTER ─── */
+footer {
+  border-top: 1px solid var(--border); padding: 40px 60px;
+  display: flex; justify-content: space-between; align-items: center;
+  color: var(--muted); font-size: 0.8rem;
+  position: relative; z-index: 1;
+}
+footer .logo { font-size: 1rem; }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+  opacity: 0; transform: translateY(24px);
+  transition: all 0.7s cubic-bezier(.22,.61,.36,1);
+}
+.fade-in.visible { opacity: 1; transform: none; }
+
+/* ─── SALARY ─── */
+.salary-badge {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 1.8rem; font-weight: 800;
+  color: var(--green); letter-spacing: -0.5px;
+  animation: fadeUp 0.8s 0.5s ease both;
   margin-bottom: 10px;
 }
-.sk-tags { display: flex; flex-wrap: wrap; gap: 5px; }
-.sk {
-  padding: 5px 12px;
-  font-size: 12px;
-  font-weight: 500;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text);
-  transition: transform .15s;
-}
-.sk:hover { transform: translateY(-1px); }
-.sk.hl {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-  font-weight: 600;
+.salary-badge small {
+  font-size: 0.7rem; font-weight: 500; color: var(--muted);
+  font-family: 'Manrope', sans-serif;
 }
 
-/* ── Languages ── */
-.lang-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.lang {
-  flex: 1;
-  min-width: 150px;
-  padding: 18px 22px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow);
-}
-.lang-name { font-size: 14px; font-weight: 700; }
-.lang-lvl { font-size: 12px; color: var(--text-2); margin-top: 2px; }
-
-/* ── Footer ── */
-.footer {
-  text-align: center;
-  padding-top: 32px;
-  font-size: 11px;
-  color: var(--text-3);
-  letter-spacing: -0.1px;
-}
-
-/* ── Spacing helper ── */
-.mt { margin-top: 10px; }
-
-/* ── Mobile ── */
-@media (max-width: 640px) {
-  .page { padding: 20px 12px 60px; }
-  .card { padding: 24px 20px; }
-  .hero-card { padding: 28px 20px; }
-  .hero {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 18px;
-  }
-  .hero-name { font-size: 26px; }
-  .avatar { width: 110px; height: 110px; }
-  .avatar-wrap::before { transform: scale(1.1); }
-  .contacts { justify-content: center; }
-  .contacts span::before { display: none; }
-  .contacts { gap: 4px 14px; }
-  .badges { justify-content: center; }
-  .meta-row {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  .sec-num { font-size: 32px; }
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  nav { padding: 14px 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 120px 20px 50px; }
+  .hero h1 { font-size: 2rem; }
+  .hero-avatar img { width: 120px; height: 120px; }
+  .hero-contacts { gap: 6px; }
+  .hero-contacts a, .hero-contacts span { font-size: 0.75rem; padding: 6px 14px; }
+  .stats-bar { flex-wrap: wrap; padding: 20px; gap: 20px; }
+  .stat-item { border-right: none; padding: 10px 20px; }
+  .section-inner { padding: 60px 16px; }
   .sk-grid { grid-template-columns: 1fr; gap: 20px; }
-  .exp-top { flex-direction: column; gap: 4px; }
+  .exp-card { padding: 24px 20px; }
+  .exp-top { flex-direction: column; gap: 6px; }
+  footer { flex-direction: column; gap: 14px; text-align: center; padding: 30px 20px; }
 }
 
-/* ── Print ── */
+/* ─── PRINT ─── */
 @media print {
-  body { background: #fff; }
-  .page { padding: 0; max-width: 100%; }
-  .card, .edu, .lang {
-    box-shadow: none;
-    break-inside: avoid;
-  }
-  .sk.hl {
-    background: #2563EB;
-    color: #fff;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-  .r { opacity: 1 !important; transform: none !important; }
-}
-
-/* ── Animations ── */
-.r {
-  opacity: 0;
-  transform: translateY(20px);
-}
-.r.v {
-  animation: rise .55s cubic-bezier(.22, .61, .36, 1) forwards;
-}
-@keyframes rise {
-  to { opacity: 1; transform: translateY(0); }
+  body { background: #fff; color: #000; }
+  body::before { display: none; }
+  nav { display: none; }
+  .hero { min-height: auto; padding: 40px 20px 20px; }
+  .hero-glow { display: none; }
+  .stats-bar { background: #f5f5f5; }
+  .stat-num { color: #333; }
+  .exp-card, .edu-card, .lang-card, .about-card { background: #fff; border: 1px solid #ddd; box-shadow: none; break-inside: avoid; }
+  .sk.hl { background: #e8e0d4; color: #333; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .fade-in { opacity: 1 !important; transform: none !important; }
 }
 </style>
 </head>
 <body>
 
-<div class="page">
+<!-- NAV -->
+<nav>
+  <div class="logo">А. Ларин</div>
+  <ul class="nav-links">
+    <li><a href="#about">О себе</a></li>
+    <li><a href="#experience">Опыт</a></li>
+    <li><a href="#education">Образование</a></li>
+    <li><a href="#skills">Навыки</a></li>
+  </ul>
+  <a href="mailto:larinbusinesshub@yandex.ru" class="nav-cta">Написать</a>
+</nav>
 
-  <!-- HERO -->
-  <div class="card hero-card r">
-    <div class="hero">
-      <div class="avatar-wrap">
-        <img class="avatar" src="photo.jpg" alt="Александр Ларин">
-      </div>
-      <div class="hero-info">
-        <h1 class="hero-name">Александр Ларин</h1>
-        <div class="hero-role">AI Implementation Lead / Руководитель AI-направления</div>
-        <div class="contacts">
-          <span><a href="tel:+79951502622">+7 (995) 150-26-22</a></span>
-          <span><a href="mailto:larinbusinesshub@yandex.ru">larinbusinesshub@yandex.ru</a></span>
-          <span><a href="https://t.me/ninoforbusiness" target="_blank">@ninoforbusiness</a></span>
-          <span>Москва, м. Водный стадион</span>
-        </div>
-      </div>
-    </div>
-    <div class="meta-row">
-      <div class="badges">
-        <span class="badge">AI & Автоматизация</span>
-        <span class="badge">Внедрение в бизнес-процессы</span>
-        <span class="badge g">Гибрид / Удалённо</span>
-        <span class="badge g">Готов к командировкам</span>
-      </div>
-      <div class="salary">200 000 ₽ <small>на руки</small></div>
-    </div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-avatar">
+    <img src="photo.jpg" alt="Александр Ларин">
   </div>
+  <div class="hero-badge">AI Implementation Lead</div>
+  <h1>Александр<br><span>Ларин</span></h1>
+  <div class="hero-role">Руководитель AI-направления / Внедрение AI в бизнес-процессы</div>
+  <div class="hero-contacts">
+    <a href="tel:+79951502622">+7 (995) 150-26-22</a>
+    <a href="mailto:larinbusinesshub@yandex.ru">larinbusinesshub@yandex.ru</a>
+    <a href="https://t.me/ninoforbusiness" target="_blank">@ninoforbusiness</a>
+    <span>Москва, м. Водный стадион</span>
+  </div>
+  <div class="salary-badge">200 000 ₽ <small>на руки</small></div>
+  <div class="hero-buttons">
+    <a href="mailto:larinbusinesshub@yandex.ru" class="btn-primary">Связаться</a>
+    <a href="#experience" class="btn-secondary">Смотреть опыт</a>
+  </div>
+</section>
 
-  <!-- PILLS -->
-  <div class="pills r">
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <span class="stat-num">7+</span>
+    <div class="stat-desc">лет опыта</div>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">10</span>
+    <div class="stat-desc">человек в команде</div>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">90%</span>
+    <div class="stat-desc">ускорение процессов</div>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">3</span>
+    <div class="stat-desc">вуза / магистратура</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+<div class="section-inner">
+  <div class="section-label fade-in">О себе</div>
+  <h2 class="section-title fade-in">Внедряю AI туда,<br>где он даёт <span style="background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">результат</span></h2>
+
+  <div class="pills fade-in">
     <span class="pill on">AI Implementation Lead</span>
     <span class="pill">Менеджер продукта</span>
     <span class="pill">Руководитель проектов</span>
     <span class="pill">Полная / частичная занятость</span>
+    <span class="pill">Гибрид / Удалённо</span>
+    <span class="pill">Готов к командировкам</span>
   </div>
 
-  <!-- ABOUT -->
-  <div class="card r">
-    <div class="sec-header">
-      <span class="sec-num">00</span>
-      <span class="sec-title">О себе</span>
-    </div>
-    <div class="about">
+  <div class="about-card fade-in">
+    <div class="about-text">
       Руковожу внедрением AI-решений в бизнес-процессы: продажи, закупки, аналитика, корпоративные коммуникации. Создал AI-платформу Aski для автоматизации бизнес-процессов. Опыт поиска product-market fit, кастомной AI-разработки под запрос клиента, управления командами до 10 человек. Выступал спикером Московского инновационного кластера. Магистратура ВШЭ (International Business) и КФУ (Менеджмент).
-      <div class="gh-row">
-        <a href="https://github.com/NinoGvatania" target="_blank" class="gh">
-          <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          Personal
-        </a>
-        <a href="https://github.com/ooo-comn" target="_blank" class="gh">
-          <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          ООО «КОМН»
-        </a>
+    </div>
+    <div class="gh-row">
+      <a href="https://github.com/NinoGvatania" target="_blank" class="gh">
+        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        Personal
+      </a>
+      <a href="https://github.com/ooo-comn" target="_blank" class="gh">
+        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        ООО «КОМН»
+      </a>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+<div class="section-inner">
+  <div class="section-label fade-in">Опыт работы</div>
+  <h2 class="section-title fade-in">7 лет создания<br>и управления проектами</h2>
+  <p class="section-sub fade-in">От собственного продакшна до AI-платформы — каждый проект прокачивал навыки управления, продаж и технологий.</p>
+
+  <div class="exp-grid">
+
+    <div class="exp-card featured fade-in">
+      <div class="exp-top">
+        <span class="exp-company">Aski</span>
+        <span class="exp-period">янв 2025 — наст. время · 1 год 2 мес</span>
       </div>
+      <div class="exp-role">Руководитель AI-направления / AI Implementation Lead</div>
+      <div class="exp-desc">Работал в команде, руководил продажами и исследованиями. Занимались поиском product-market fit и созданием AI-продукта для рынка. Параллельно продавали услуги кастомной AI-разработки под запрос клиента и внедряли AI-решения в бизнес-процессы сторонних компаний.</div>
+      <div class="exp-lbl">Обязанности</div>
+      <ul>
+        <li>Руководство продажами и исследованиями в рамках AI-продукта</li>
+        <li>Поиск product-market fit, проведение customer development</li>
+        <li>Проектирование и кастомная разработка AI-решений под запросы клиентов</li>
+        <li>Анализ бизнес-процессов заказчиков, выявление точек для внедрения AI</li>
+        <li>Управление продуктовым циклом: от discovery до внедрения</li>
+        <li>Подготовка и проведение презентаций для бизнес-аудитории и инвесторов</li>
+      </ul>
+      <div class="exp-lbl">Достижения</div>
+      <ul class="ach">
+        <li>Разработал AI-платформу автоматизации бизнес-коммуникаций — <a href="https://aski.site" target="_blank" class="lnk">aski.site ↗</a></li>
+        <li>Внедрил AI-механизм в закупочные процессы сторонней компании: автоматизация анализа тендерной и закупочной документации</li>
+        <li>Создал AI-бота для первичной отработки клиентов инфопродукта</li>
+        <li>Внедрил AI в отделы продаж: автоматизация анализа звонков, извлечение ключевых инсайтов и задач</li>
+        <li>Ускорение обработки информации в автоматизированных процессах на 70–90%</li>
+        <li>Разработал MVP AI-системы: анализ коммуникаций, поиск по истории взаимодействий, авто-отчёты, AI-ассистенты для сотрудников</li>
+        <li>Выступил спикером Московского инновационного кластера — основная сцена и конференция в Лужниках <a href="https://t.me/innovators_msk/1486" target="_blank" class="lnk">Пост 1 ↗</a> <a href="https://t.me/innovators_msk/1453" target="_blank" class="lnk">Пост 2 ↗</a></li>
+        <li>Представлял AI-решение перед представителями бизнеса, инвесторами и технологическим сообществом</li>
+      </ul>
     </div>
-  </div>
 
-  <!-- EXPERIENCE -->
-  <div class="r">
-    <div class="sec-header mt">
-      <span class="sec-num">01</span>
-      <span class="sec-title">Опыт работы — 7 лет</span>
+    <div class="exp-card fade-in">
+      <div class="exp-top">
+        <span class="exp-company">ИП Ларин А. С. — франчайзи Pedant.ru</span>
+        <span class="exp-period">дек 2024 — наст. время · 1 год 3 мес</span>
+      </div>
+      <div class="exp-role">Руководитель сервисного центра</div>
+      <div class="exp-desc">Управление сервисным центром по ремонту смартфонов, ноутбуков и планшетов в рамках франшизы.</div>
+      <div class="exp-lbl">Обязанности</div>
+      <ul>
+        <li>Поиск, найм и управление персоналом</li>
+        <li>Финансовое управление и работа с поставщиками</li>
+        <li>Организация офлайн-маркетинга, работа в CRM</li>
+        <li>Коммуникация с управляющей компанией</li>
+      </ul>
+      <div class="exp-lbl">Достижения</div>
+      <ul class="ach">
+        <li>Рост выручки точки до 750 000 ₽</li>
+        <li>Сформировал стабильную команду при высокой текучести в отрасли</li>
+      </ul>
     </div>
-  </div>
 
-  <div class="card exp-featured r">
-    <div class="exp-top">
-      <span class="exp-company">Aski</span>
-      <span class="exp-period">янв 2025 — наст. время · 1 год 2 мес</span>
+    <div class="exp-card fade-in">
+      <div class="exp-top">
+        <span class="exp-company">Common Course (ООО «КОМН»)</span>
+        <span class="exp-period">авг 2022 — авг 2025 · 3 года 1 мес</span>
+      </div>
+      <div class="exp-role">Founder, CEO</div>
+      <div class="exp-desc">Образовательная платформа на базе Telegram Web Apps — курсы «от студентов для студентов». Руководил командой из 10 человек по Agile.</div>
+      <div class="exp-lbl">Обязанности</div>
+      <ul>
+        <li>Руководство распределённой командой из 10 человек, планирование задач</li>
+        <li>Customer Development: кастдевы, решенческие интервью, первые продажи</li>
+        <li>A/B тесты, дизайн интерфейса в Figma, прототипирование</li>
+        <li>Финансовое моделирование и подготовка к привлечению инвестиций</li>
+        <li>Презентации продукта, питчинг перед инвесторами и акселераторами</li>
+      </ul>
+      <div class="exp-lbl">Достижения</div>
+      <ul class="ach">
+        <li>Грант 1 млн ₽ от Фонда содействия инновациям («Студенческий стартап»)</li>
+        <li>Финалист СберАкселератора</li>
+        <li>Полуфиналист международного TON Hackathon (Telegram)</li>
+        <li>Финалист международного MAHa Hackathon</li>
+        <li>Выпускник Академии инноваторов МИК</li>
+        <li>Раскрутка соцсетей проекта до 6 млн просмотров</li>
+      </ul>
     </div>
-    <div class="exp-role">Руководитель AI-направления / AI Implementation Lead</div>
-    <div class="exp-desc">Работал в команде, руководил продажами и исследованиями. Занимались поиском product-market fit и созданием AI-продукта для рынка. Параллельно продавали услуги кастомной AI-разработки под запрос клиента и внедряли AI-решения в бизнес-процессы сторонних компаний.</div>
-    <div class="lbl">Обязанности</div>
-    <ul>
-      <li>Руководство продажами и исследованиями в рамках AI-продукта</li>
-      <li>Поиск product-market fit, проведение customer development</li>
-      <li>Проектирование и кастомная разработка AI-решений под запросы клиентов</li>
-      <li>Анализ бизнес-процессов заказчиков, выявление точек для внедрения AI</li>
-      <li>Управление продуктовым циклом: от discovery до внедрения</li>
-      <li>Подготовка и проведение презентаций для бизнес-аудитории и инвесторов</li>
-    </ul>
-    <div class="lbl">Достижения</div>
-    <ul class="ach">
-      <li>Разработал AI-платформу автоматизации бизнес-коммуникаций — <a href="https://aski.site" target="_blank" class="lnk">aski.site ↗</a></li>
-      <li>Внедрил AI-механизм в закупочные процессы сторонней компании: автоматизация анализа тендерной и закупочной документации</li>
-      <li>Создал AI-бота для первичной отработки клиентов инфопродукта</li>
-      <li>Внедрил AI в отделы продаж: автоматизация анализа звонков, извлечение ключевых инсайтов и задач</li>
-      <li>Ускорение обработки информации в автоматизированных процессах на 70–90%</li>
-      <li>Разработал MVP AI-системы: анализ коммуникаций, поиск по истории взаимодействий, авто-отчёты, AI-ассистенты для сотрудников</li>
-      <li>Выступил спикером Московского инновационного кластера — основная сцена и конференция в Лужниках <a href="https://t.me/innovators_msk/1486" target="_blank" class="lnk">Пост 1 ↗</a> <a href="https://t.me/innovators_msk/1453" target="_blank" class="lnk">Пост 2 ↗</a></li>
-      <li>Представлял AI-решение перед представителями бизнеса, инвесторами и технологическим сообществом</li>
-    </ul>
-  </div>
 
-  <div class="card r">
-    <div class="exp-top">
-      <span class="exp-company">ИП Ларин А. С. — франчайзи Pedant.ru</span>
-      <span class="exp-period">дек 2024 — наст. время · 1 год 3 мес</span>
+    <div class="exp-card fade-in">
+      <div class="exp-top">
+        <span class="exp-company">Сбер (ПАО «Сбербанк»)</span>
+        <span class="exp-period">мар 2024 — май 2024 · 3 мес</span>
+      </div>
+      <div class="exp-role">Стажёр — отдел аккредитивов и счетов эскроу / глобальных рынков</div>
+      <ul>
+        <li>Поиск новых идей для продаж финансовых инструментов МСБ и СКБ</li>
+        <li>Участие во встречах с клиентами банка</li>
+      </ul>
     </div>
-    <div class="exp-role">Руководитель сервисного центра</div>
-    <div class="exp-desc">Управление сервисным центром по ремонту смартфонов, ноутбуков и планшетов в рамках франшизы.</div>
-    <div class="lbl">Обязанности</div>
-    <ul>
-      <li>Поиск, найм и управление персоналом</li>
-      <li>Финансовое управление и работа с поставщиками</li>
-      <li>Организация офлайн-маркетинга, работа в CRM</li>
-      <li>Коммуникация с управляющей компанией</li>
-    </ul>
-    <div class="lbl">Достижения</div>
-    <ul class="ach">
-      <li>Рост выручки точки до 750 000 ₽</li>
-      <li>Сформировал стабильную команду при высокой текучести в отрасли</li>
-    </ul>
-  </div>
 
-  <div class="card r">
-    <div class="exp-top">
-      <span class="exp-company">Common Course (ООО «КОМН»)</span>
-      <span class="exp-period">авг 2022 — авг 2025 · 3 года 1 мес</span>
+    <div class="exp-card fade-in">
+      <div class="exp-top">
+        <span class="exp-company">NFT-ферма (STEPN)</span>
+        <span class="exp-period">фев 2022 — июл 2022 · 6 мес</span>
+      </div>
+      <div class="exp-role">Менеджер проекта / Founder</div>
+      <ul>
+        <li>Анализ инвестиционной привлекательности и токеномики проекта</li>
+        <li>Привлечение инвестиций 400 тыс. ₽, прибыль проекта ~3 млн ₽</li>
+      </ul>
     </div>
-    <div class="exp-role">Founder, CEO</div>
-    <div class="exp-desc">Образовательная платформа на базе Telegram Web Apps — курсы «от студентов для студентов». Руководил командой из 10 человек по Agile.</div>
-    <div class="lbl">Обязанности</div>
-    <ul>
-      <li>Руководство распределённой командой из 10 человек, планирование задач</li>
-      <li>Customer Development: кастдевы, решенческие интервью, первые продажи</li>
-      <li>A/B тесты, дизайн интерфейса в Figma, прототипирование</li>
-      <li>Финансовое моделирование и подготовка к привлечению инвестиций</li>
-      <li>Презентации продукта, питчинг перед инвесторами и акселераторами</li>
-    </ul>
-    <div class="lbl">Достижения</div>
-    <ul class="ach">
-      <li>Грант 1 млн ₽ от Фонда содействия инновациям («Студенческий стартап»)</li>
-      <li>Финалист СберАкселератора</li>
-      <li>Полуфиналист международного TON Hackathon (Telegram)</li>
-      <li>Финалист международного MAHa Hackathon</li>
-      <li>Выпускник Академии инноваторов МИК</li>
-      <li>Раскрутка соцсетей проекта до 6 млн просмотров</li>
-    </ul>
-  </div>
 
-  <div class="card r">
-    <div class="exp-top">
-      <span class="exp-company">Сбер (ПАО «Сбербанк»)</span>
-      <span class="exp-period">мар 2024 — май 2024 · 3 мес</span>
+    <div class="exp-card fade-in">
+      <div class="exp-top">
+        <span class="exp-company">Собственный продакшн</span>
+        <span class="exp-period">окт 2017 — мар 2020 · 2 года 6 мес</span>
+      </div>
+      <div class="exp-role">Менеджер по организации мероприятий</div>
+      <ul>
+        <li>Организация съёмочной команды, работа с клиентами, управление проектами</li>
+      </ul>
     </div>
-    <div class="exp-role">Стажёр — отдел аккредитивов и счетов эскроу / глобальных рынков</div>
-    <ul>
-      <li>Поиск новых идей для продаж финансовых инструментов МСБ и СКБ</li>
-      <li>Участие во встречах с клиентами банка</li>
-    </ul>
-  </div>
 
-  <div class="card r">
-    <div class="exp-top">
-      <span class="exp-company">NFT-ферма (STEPN)</span>
-      <span class="exp-period">фев 2022 — июл 2022 · 6 мес</span>
-    </div>
-    <div class="exp-role">Менеджер проекта / Founder</div>
-    <ul>
-      <li>Анализ инвестиционной привлекательности и токеномики проекта</li>
-      <li>Привлечение инвестиций 400 тыс. ₽, прибыль проекта ~3 млн ₽</li>
-    </ul>
   </div>
+</div>
+</section>
 
-  <div class="card r">
-    <div class="exp-top">
-      <span class="exp-company">Собственный продакшн</span>
-      <span class="exp-period">окт 2017 — мар 2020 · 2 года 6 мес</span>
-    </div>
-    <div class="exp-role">Менеджер по организации мероприятий</div>
-    <ul>
-      <li>Организация съёмочной команды, работа с клиентами, управление проектами</li>
-    </ul>
-  </div>
-
-  <!-- EDUCATION -->
-  <div class="r">
-    <div class="sec-header mt">
-      <span class="sec-num">02</span>
-      <span class="sec-title">Образование</span>
-    </div>
-  </div>
-  <div class="edu-grid r">
-    <div class="edu">
+<!-- EDUCATION -->
+<section id="education">
+<div class="section-inner">
+  <div class="section-label fade-in">Образование</div>
+  <h2 class="section-title fade-in">Три вуза, две<br>магистратуры</h2>
+  <p class="section-sub fade-in">ВШЭ, КФУ и Финуниверситет — фундамент в бизнесе, менеджменте и цифровой экономике.</p>
+  <div class="edu-grid fade-in">
+    <div class="edu-card">
       <div class="edu-main">
         <div class="edu-name">Казанский федеральный университет</div>
         <div class="edu-prog">Магистр · Менеджмент</div>
       </div>
       <span class="edu-yr">2026</span>
     </div>
-    <div class="edu">
+    <div class="edu-card">
       <div class="edu-main">
         <div class="edu-name">Высшая школа экономики (НИУ ВШЭ)</div>
         <div class="edu-prog">Магистр · International Business</div>
@@ -666,7 +665,7 @@ body {
       </div>
       <span class="edu-yr">2025</span>
     </div>
-    <div class="edu">
+    <div class="edu-card">
       <div class="edu-main">
         <div class="edu-name">Финансовый университет при Правительстве РФ</div>
         <div class="edu-prog">Бакалавриат · Оценка бизнеса в цифровой экономике</div>
@@ -675,123 +674,155 @@ body {
       <span class="edu-yr">2020 – 2024</span>
     </div>
   </div>
+</div>
+</section>
 
-  <!-- SKILLS -->
-  <div class="r">
-    <div class="sec-header mt">
-      <span class="sec-num">03</span>
-      <span class="sec-title">Навыки</span>
-    </div>
-  </div>
-  <div class="card r">
-    <div class="sk-grid">
-      <div class="sk-group">
-        <div class="sk-label">AI & Автоматизация</div>
-        <div class="sk-tags">
-          <span class="sk hl">Внедрение AI в бизнес-процессы</span>
-          <span class="sk hl">ChatGPT</span>
-          <span class="sk hl">Claude</span>
-          <span class="sk hl">YandexGPT</span>
-          <span class="sk">DeepSeek</span>
-          <span class="sk">Grok</span>
-          <span class="sk">GigaChat</span>
-          <span class="sk">Gemini</span>
-          <span class="sk">Mistral</span>
-          <span class="sk">MidJourney</span>
-          <span class="sk">Perplexity</span>
-        </div>
-      </div>
-      <div class="sk-group">
-        <div class="sk-label">Продуктовое управление</div>
-        <div class="sk-tags">
-          <span class="sk">Customer Development</span>
-          <span class="sk">A/B тестирование</span>
-          <span class="sk">Agile</span>
-          <span class="sk">Figma / Прототипирование</span>
-          <span class="sk">UX/UI</span>
-          <span class="sk">Unit-экономика</span>
-          <span class="sk">Воронки продаж</span>
-        </div>
-      </div>
-      <div class="sk-group">
-        <div class="sk-label">Инструменты</div>
-        <div class="sk-tags">
-          <span class="sk">Yandex Tracker</span>
-          <span class="sk">Yandex DataLens</span>
-          <span class="sk">Power BI</span>
-          <span class="sk">Miro</span>
-          <span class="sk">Notion</span>
-          <span class="sk">Obsidian</span>
-          <span class="sk">YouGile</span>
-          <span class="sk">BuildIn</span>
-          <span class="sk">Canva</span>
-          <span class="sk">amoCRM</span>
-          <span class="sk">CRMfix</span>
-          <span class="sk">1C</span>
-          <span class="sk">MS Office</span>
-          <span class="sk">Google Docs</span>
-          <span class="sk">Google Slides</span>
-        </div>
-      </div>
-      <div class="sk-group">
-        <div class="sk-label">Технические</div>
-        <div class="sk-tags">
-          <span class="sk">Python</span>
-          <span class="sk">SQL</span>
-          <span class="sk">HTML</span>
-          <span class="sk">Markdown</span>
-          <span class="sk">GitHub</span>
-          <span class="sk">Vercel</span>
-          <span class="sk">Supabase</span>
-          <span class="sk">Timeweb Cloud</span>
-          <span class="sk">Yandex Cloud</span>
-          <span class="sk">Cloud.ru</span>
-        </div>
-      </div>
-    </div>
-    <div class="sk-group" style="margin-top: 24px;">
-      <div class="sk-label">Soft Skills</div>
+<!-- SKILLS -->
+<section id="skills" class="skills-section">
+<div class="section-inner">
+  <div class="section-label fade-in">Навыки</div>
+  <h2 class="section-title fade-in">Технологии и<br>инструменты</h2>
+  <p class="section-sub fade-in">От AI-платформ до CRM-систем — стек под задачи бизнеса и продукта.</p>
+  <div class="sk-grid fade-in">
+    <div class="sk-group">
+      <div class="sk-label">AI & Автоматизация</div>
       <div class="sk-tags">
-        <span class="sk">Проведение презентаций</span>
-        <span class="sk">Ведение переговоров</span>
-        <span class="sk">Деловая коммуникация</span>
-        <span class="sk">Работа с клиентами</span>
-        <span class="sk">Урегулирование конфликтов</span>
+        <span class="sk hl">Внедрение AI в бизнес-процессы</span>
+        <span class="sk hl">ChatGPT</span>
+        <span class="sk hl">Claude</span>
+        <span class="sk hl">YandexGPT</span>
+        <span class="sk">DeepSeek</span>
+        <span class="sk">Grok</span>
+        <span class="sk">GigaChat</span>
+        <span class="sk">Gemini</span>
+        <span class="sk">Mistral</span>
+        <span class="sk">MidJourney</span>
+        <span class="sk">Perplexity</span>
+      </div>
+    </div>
+    <div class="sk-group">
+      <div class="sk-label">Продуктовое управление</div>
+      <div class="sk-tags">
+        <span class="sk">Customer Development</span>
+        <span class="sk">A/B тестирование</span>
+        <span class="sk">Agile</span>
+        <span class="sk">Figma / Прототипирование</span>
+        <span class="sk">UX/UI</span>
+        <span class="sk">Unit-экономика</span>
+        <span class="sk">Воронки продаж</span>
+      </div>
+    </div>
+    <div class="sk-group">
+      <div class="sk-label">Инструменты</div>
+      <div class="sk-tags">
+        <span class="sk">Yandex Tracker</span>
+        <span class="sk">Yandex DataLens</span>
+        <span class="sk">Power BI</span>
+        <span class="sk">Miro</span>
+        <span class="sk">Notion</span>
+        <span class="sk">Obsidian</span>
+        <span class="sk">YouGile</span>
+        <span class="sk">BuildIn</span>
+        <span class="sk">Canva</span>
+        <span class="sk">amoCRM</span>
+        <span class="sk">CRMfix</span>
+        <span class="sk">1C</span>
+        <span class="sk">MS Office</span>
+        <span class="sk">Google Docs</span>
+        <span class="sk">Google Slides</span>
+      </div>
+    </div>
+    <div class="sk-group">
+      <div class="sk-label">Технические</div>
+      <div class="sk-tags">
+        <span class="sk">Python</span>
+        <span class="sk">SQL</span>
+        <span class="sk">HTML</span>
+        <span class="sk">Markdown</span>
+        <span class="sk">GitHub</span>
+        <span class="sk">Vercel</span>
+        <span class="sk">Supabase</span>
+        <span class="sk">Timeweb Cloud</span>
+        <span class="sk">Yandex Cloud</span>
+        <span class="sk">Cloud.ru</span>
       </div>
     </div>
   </div>
-
-  <!-- LANGUAGES -->
-  <div class="r">
-    <div class="sec-header mt">
-      <span class="sec-num">04</span>
-      <span class="sec-title">Языки</span>
+  <div class="sk-group fade-in" style="margin-top: 28px;">
+    <div class="sk-label">Soft Skills</div>
+    <div class="sk-tags">
+      <span class="sk">Проведение презентаций</span>
+      <span class="sk">Ведение переговоров</span>
+      <span class="sk">Деловая коммуникация</span>
+      <span class="sk">Работа с клиентами</span>
+      <span class="sk">Урегулирование конфликтов</span>
     </div>
   </div>
-  <div class="lang-row r">
-    <div class="lang">
+</div>
+</section>
+
+<!-- LANGUAGES -->
+<section id="languages">
+<div class="section-inner">
+  <div class="section-label fade-in">Языки</div>
+  <h2 class="section-title fade-in">Коммуникация без<br>барьеров</h2>
+  <div class="lang-row fade-in" style="margin-top: 32px;">
+    <div class="lang-card">
       <div class="lang-name">Русский</div>
       <div class="lang-lvl">Родной</div>
     </div>
-    <div class="lang">
+    <div class="lang-card">
       <div class="lang-name">English</div>
       <div class="lang-lvl">B2 — Upper-Intermediate</div>
     </div>
   </div>
-
-  <div class="footer">Резюме обновлено 20 февраля 2026</div>
 </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">А. Ларин</div>
+  <div>Резюме обновлено 20 февраля 2026</div>
+  <div style="display:flex;gap:20px">
+    <a href="https://github.com/NinoGvatania" target="_blank" style="color:var(--muted);text-decoration:none;transition:color .3s">GitHub</a>
+    <a href="https://t.me/ninoforbusiness" target="_blank" style="color:var(--muted);text-decoration:none;transition:color .3s">Telegram</a>
+    <a href="mailto:larinbusinesshub@yandex.ru" style="color:var(--muted);text-decoration:none;transition:color .3s">Email</a>
+  </div>
+</footer>
 
 <script>
-const o = new IntersectionObserver(entries => {
+const observer = new IntersectionObserver((entries) => {
   entries.forEach(el => {
     if (el.isIntersecting) {
-      el.target.classList.add('v');
-      o.unobserve(el.target);
+      el.target.classList.add('visible');
+      observer.unobserve(el.target);
     }
   });
-}, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.r').forEach(el => o.observe(el));
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Animated stat counters
+const counters = document.querySelectorAll('.stat-num');
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const text = el.textContent;
+      const num = parseFloat(text);
+      if (!isNaN(num)) {
+        let start = 0;
+        const step = num / 35;
+        const timer = setInterval(() => {
+          start += step;
+          if (start >= num) { el.textContent = text; clearInterval(timer); return; }
+          el.textContent = text.replace(String(num), String(Math.floor(start)));
+        }, 30);
+      }
+      countObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+counters.forEach(c => countObserver.observe(c));
 </script>
 </body>
 </html>
